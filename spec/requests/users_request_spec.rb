@@ -5,7 +5,7 @@ RSpec.describe "Users", type: :request do
   describe "POST /auth/users" do
     let(:valid_headers) {
       {
-        "Authorization" => "Bearer #{ENV['AUTH0_CREATE_USER_SECRET']}"
+        "Authorization" => "Bearer #{Auth0RailsEngine.configuration.auth0_create_user_secret}"
       }
     }
 
@@ -19,6 +19,7 @@ RSpec.describe "Users", type: :request do
     it "creates an Applicant" do
       expect {
         post auth0_rails_engine.users_path, params: valid_params, headers: valid_headers
+				puts response.body
       }.to change(Applicant, :count).by(1)
 
       expect(response).to have_http_status(:created)
@@ -46,7 +47,6 @@ RSpec.describe "Users", type: :request do
     end
 
     it "returns an error for missing auth token" do
-      # binding.pry
       post auth0_rails_engine.users_path, params: valid_params
 
       expect(response).to have_http_status(:unauthorized)
