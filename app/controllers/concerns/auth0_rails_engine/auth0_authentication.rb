@@ -6,9 +6,9 @@ module Auth0RailsEngine
 
     def auth0_client
       @auth0_client ||= Auth0Client.new(
-        auth0_domain: ENV['AUTH0_DOMAIN'],
-        auth0_client_id: ENV['AUTH0_CLIENT_ID'],
-        auth0_client_secret: ENV['AUTH0_CLIENT_SECRET']
+        auth0_domain: Auth0RailsEngine.configuration.auth0_domain,
+        auth0_client_id: Auth0RailsEngine.configuration.auth0_client_id,
+        auth0_client_secret: Auth0RailsEngine.configuration.auth0_client_secret
       )
     end
 
