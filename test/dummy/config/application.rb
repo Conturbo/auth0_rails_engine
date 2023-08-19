@@ -10,7 +10,7 @@ require "auth0_rails_engine"
 module Dummy
   class Application < Rails::Application
     config.load_defaults Rails::VERSION::STRING.to_f
-
+    config.api_only = true
     # For compatibility with applications that use this config
     config.action_controller.include_all_helpers = false
 

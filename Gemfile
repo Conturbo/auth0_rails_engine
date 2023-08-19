@@ -8,7 +8,16 @@ gem "puma"
 
 gem "sqlite3"
 
-gem "sprockets-rails"
+group :development, :test do
+  gem 'dotenv'
+  gem 'pry-rails'
+  gem 'rubocop'
+  gem 'rspec-rails'
+end
 
-# Start debugger with binding.b [https://github.com/ruby/debug]
-# gem "debug", ">= 1.0.0"
+group :test do
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+end
