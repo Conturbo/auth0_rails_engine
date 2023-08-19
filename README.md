@@ -1,5 +1,8 @@
 # Auth0RailsEngine
-Short description and motivation.
+What does this Rail Engine do?
+It helps you use Auth0.
+Assumes Rails API.
+Gives you a `current_user` method (gets it from token, looks it up, all that bs)
 
 
 in main app `routes.rb`, do this:
