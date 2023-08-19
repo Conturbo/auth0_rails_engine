@@ -13,6 +13,8 @@ module Auth0RailsEngine
     end
 
     def current_user
+      return Auth0RailsEngine.configuration.test_user if Auth0RailsEngine.configuration.test_mode && !Rails.env.production?
+
       token = get_token_from_headers
       @current_user ||= find_user(token)
 		rescue JWT::DecodeError => e

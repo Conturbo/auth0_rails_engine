@@ -58,3 +58,12 @@ add (something like) this to your `application_controller.rb`:
 
 ### Routes
 User create callback route is POST `/auth/users`
+
+
+### Test Mode
+set `current_user`, do this:
+```ruby
+before do
+  Auth0RailsEngine.set_current_user(create(:user))
+end
+```
