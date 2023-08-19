@@ -1,0 +1,45 @@
+module Auth0RailsEngine
+  module Auth0Authentication
+    extend ActiveSupport::Concern
+
+		private
+
+    def auth0_client
+      @auth0_client ||= Auth0Client.new(
+        auth0_domain: ENV['AUTH0_DOMAIN'],
+        auth0_client_id: ENV['AUTH0_CLIENT_ID'],
+        auth0_client_secret: ENV['AUTH0_CLIENT_SECRET']
+      )
+    end
+
+    def current_user
+      token = get_token_from_headers
+      @current_user ||= find_user(token)
+		rescue JWT::DecodeError => e
+			@current_user = nil
+    end
+
+    def get_token_from_headers
+      request.headers['Authorization']&.split(' ')&.last
+    end
+
+    def find_user(token)
+      return nil unless token
+
+      auth0_id = auth0_client.get_auth0_id(token)
+      user = Employer.find_by(auth0_id: auth0_id)
+      return user if user.present?
+
+      user = Applicant.find_by(auth0_id: auth0_id)
+      return user if user.present?
+
+      nil
+    rescue JWT::DecodeError => e
+      nil
+    end
+
+    def unauthorized_response
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
+  end
+end

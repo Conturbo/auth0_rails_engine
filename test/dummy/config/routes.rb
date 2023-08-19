@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Auth0RailsEngine::Engine => "/auth0_rails_engine"
+  mount Auth0RailsEngine::Engine => "/auth"
 end
