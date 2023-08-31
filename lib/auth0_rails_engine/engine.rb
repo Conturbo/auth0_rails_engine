@@ -1,4 +1,4 @@
-require 'dotenv/load' unless Rails.env.production?
+# require 'dotenv/load' unless Rails.env.production?
 
 module Auth0RailsEngine
   class Engine < ::Rails::Engine
