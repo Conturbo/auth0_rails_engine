@@ -22,7 +22,7 @@ class Auth0Client
 			algorithm: 'RS256',
 			iss: "https://#{self.auth0_domain}/",
 			verify_iss: true,
-			aud: self.auth0_client_id,
+			aud: "https://#{self.auth0_domain}/api/v2/",
 			verify_aud: true,
 			jwks: jwk_loader
 		}

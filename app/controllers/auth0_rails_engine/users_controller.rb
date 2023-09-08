@@ -20,7 +20,7 @@ class Auth0RailsEngine::UsersController < Auth0RailsEngine::ApplicationControlle
 	def authenticate_request_is_from_auth0!
     token = get_token_from_headers
     return unauthorized_response unless token
-
+    
     if token == Auth0RailsEngine.configuration.auth0_create_user_secret
       return
     else
