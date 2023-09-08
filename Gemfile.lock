@@ -3,6 +3,7 @@ PATH
   specs:
     auth0_rails_engine (0.1.0)
       json-jwt
+      jwt
       rack-cors
       rails (>= 7.0.7)
       rest-client
@@ -121,6 +122,7 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
+    jwt (2.7.1)
     language_server-protocol (3.17.0.3)
     loofah (2.21.3)
       crass (~> 1.0.2)
