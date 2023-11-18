@@ -2,7 +2,8 @@ class Auth0RailsEngine::UsersController < Auth0RailsEngine::ApplicationControlle
 	before_action :authenticate_request_is_from_auth0!
 
   def create
-    user_role = params[:user_role]
+    user_role = params["user_type"]
+
     user_class = user_classes.find { |klass| klass.to_s == user_role }
 
     if user_class
