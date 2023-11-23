@@ -2,12 +2,15 @@ class Auth0RailsEngine::UsersController < Auth0RailsEngine::ApplicationControlle
 	before_action :authenticate_request_is_from_auth0!
 
   def create
-    user_role = params["user_type"]
+    user_role = params[:user][:user_type]
+
+    Rails.logger.info("params: #{params}")
+    Rails.logger.info("user_role: #{user_role}")
 
     user_class = user_classes.find { |klass| klass.to_s == user_role }
 
     if user_class
-      user_class.create!(auth0_id: params[:auth0_id])
+      user_class.create!(auth0_id: params[:user][:auth0_id])
       render json: { message: "User created successfully" }, status: :created
     else
       render json: { error: "Invalid user role" }, status: :unprocessable_entity
