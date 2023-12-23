@@ -11,16 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_08_19_012122) do
-  create_table "applicants", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "auth0_id", default: "temporary", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  create_table "employers", force: :cascade do |t|
-    t.string "auth0_id", default: "temporary", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
 end
