@@ -11,39 +11,20 @@ RSpec.describe "Users", type: :request do
 
     let(:valid_params) {
       {
-        auth0_id: "auth0|12345",
-        user_role: "Applicant"
+        user: {
+          auth0_id: "auth0|12345"
+        }
       }
     }
 
-    it "creates an Applicant" do
+    it "creates a User" do
       expect {
         post auth0_rails_engine.users_path, params: valid_params, headers: valid_headers
 				puts response.body
-      }.to change(Applicant, :count).by(1)
+      }.to change(User, :count).by(1)
 
       expect(response).to have_http_status(:created)
       expect(response.body).to include("User created successfully")
-    end
-
-    it "creates an Employer" do
-      valid_params[:user_role] = "Employer"
-
-      expect {
-        post auth0_rails_engine.users_path, params: valid_params, headers: valid_headers
-      }.to change(Employer, :count).by(1)
-
-      expect(response).to have_http_status(:created)
-      expect(response.body).to include("User created successfully")
-    end
-
-    it "returns an error for invalid user roles" do
-      valid_params[:user_role] = "InvalidRole"
-
-      post auth0_rails_engine.users_path, params: valid_params, headers: valid_headers
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.body).to include("error")
     end
 
     it "returns an error for missing auth token" do

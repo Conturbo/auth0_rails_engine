@@ -30,10 +30,8 @@ module Auth0RailsEngine
 
       auth0_id = auth0_client.get_auth0_id(token)
 
-      Auth0RailsEngine.configuration.user_classes.call.each do |user_class|
-        user = user_class.find_by(auth0_id: auth0_id)
-        return user if user.present?
-      end
+      user = User.find_by(auth0_id: auth0_id)
+      return user if user.present?
 
       nil
     rescue JWT::DecodeError => e
