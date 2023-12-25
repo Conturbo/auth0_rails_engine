@@ -14,6 +14,17 @@ class Auth0Client
 	rescue JWT::DecodeError => e
 		raise JWT::DecodeError, e.message
 	end
+
+  def user_info(auth0_id)
+    access_token = get_management_api_access_token
+    user_info_url = "https://#{self.auth0_domain}/api/v2/users/#{auth0_id}"
+
+    response = RestClient.get(user_info_url, { Authorization: "Bearer #{access_token}" })
+    JSON.parse(response.body)
+  rescue RestClient::Exception => e
+    Rails.logger.error "Auth0 API Request Failed: #{e.message}"
+    nil
+  end
 	
 	private
 
@@ -41,4 +52,20 @@ class Auth0Client
 			}
 		}
 	end
+
+	def get_management_api_access_token
+    token_url = "https://#{self.auth0_domain}/oauth/token"
+    payload = {
+      client_id: self.auth0_client_id,
+      client_secret: self.auth0_client_secret,
+      audience: "https://#{self.auth0_domain}/api/v2/",
+      grant_type: 'client_credentials'
+    }
+
+    response = RestClient.post(token_url, payload)
+    JSON.parse(response.body)['access_token']
+  rescue RestClient::Exception => e
+    Rails.logger.error "Failed to retrieve Auth0 Management API token: #{e.message}"
+    nil
+  end
 end

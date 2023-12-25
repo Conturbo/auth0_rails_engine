@@ -9,7 +9,7 @@ module Auth0RailsEngine
     # Instance method to fetch user data from Auth0
     def fetch_auth0_data
       # Assuming you have a method in your Auth0Client to fetch user details
-      auth0_client.user_info(auth0_id)
+      auth0_client.user_info(self.auth0_id)
     end
 
     # Method to get specific attribute (e.g., email) from Auth0 data
@@ -19,6 +19,16 @@ module Auth0RailsEngine
     rescue StandardError => e
       Rails.logger.error "Failed to fetch data from Auth0: #{e.message}"
       nil
+    end
+
+		private
+
+    def auth0_client
+      @auth0_client ||= Auth0Client.new(
+        auth0_domain: Auth0RailsEngine.configuration.auth0_domain,
+        auth0_client_id: Auth0RailsEngine.configuration.auth0_client_id,
+        auth0_client_secret: Auth0RailsEngine.configuration.auth0_client_secret
+      )
     end
   end
 end
